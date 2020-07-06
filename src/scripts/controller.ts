@@ -24,10 +24,13 @@ export class AppController {
         try {
             this.validateUsername(value);
             this.appView.clearInputError();
+            this.appView.showLoader();
             const data = await this.appModel.getUserData(value);
             this.appView.renderProfile(data);
             const history = await this.appModel.getUserHistory(value);
             this.appView.renderHistory(history);
+            this.appView.hideLoader();
+            this.appView.showMainContent();
             this.appView.clearInput();
         } catch (error) {
             console.log(error);

@@ -10,6 +10,9 @@ interface ElementsCollection {
     userBio: HTMLElement;
     historyContainer: HTMLElement;
     historyError: HTMLElement;
+    mainContent: HTMLElement;
+    placeholderContent: HTMLElement;
+    spinner: HTMLElement;
 }
 
 export class AppView {
@@ -22,7 +25,25 @@ export class AppView {
         userBio: document.getElementById('profile-bio'),
         historyContainer: document.getElementById('user-timeline'),
         historyError: document.getElementById('history-error'),
+        mainContent: document.getElementById('main-content'),
+        placeholderContent: document.getElementById('placeholder-content'),
+        spinner: document.getElementById('spinner')
     }
+
+    public showMainContent = () => {
+        this.elements.mainContent.classList.remove('is-hidden');
+        this.elements.placeholderContent.classList.add('is-hidden');
+    }
+
+    public showLoader = () => {
+        this.elements.spinner.classList.remove('is-hidden');
+        this.elements.mainContent.classList.add('is-hidden');
+    };
+
+    public hideLoader = () => {
+        this.elements.spinner.classList.add('is-hidden');
+        this.elements.mainContent.classList.remove('is-hidden');
+    };
 
     public getInputValue = (): string => {
         return this.elements.usernameInput.value.trim();
