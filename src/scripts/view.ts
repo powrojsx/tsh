@@ -9,6 +9,7 @@ interface ElementsCollection {
     userLogin: HTMLElement;
     userBio: HTMLElement;
     historyContainer: HTMLElement;
+    historyError: HTMLElement;
 }
 
 export class AppView {
@@ -19,7 +20,8 @@ export class AppView {
         userName: document.getElementById('profile-name'),
         userLogin: document.getElementById('profile-url'),
         userBio: document.getElementById('profile-bio'),
-        historyContainer: document.getElementById('user-timeline')
+        historyContainer: document.getElementById('user-timeline'),
+        historyError: document.getElementById('history-error'),
     }
 
     public getInputValue = (): string => {
@@ -87,13 +89,28 @@ export class AppView {
         `;
     };
 
-    public renderHistory = (history: any) => {
-        let markup = '';
-        history.forEach(item => {
-            markup += this.buildHistoryItemMarkup(item);
-        });
-
+    public renderHistory = (history: any[]) => {
         this.elements.historyContainer.innerHTML = '';
-        this.elements.historyContainer.insertAdjacentHTML('beforeend', markup);
+        let markup = '';
+
+        if(history.length > 0) {
+            this.hideHistoryError();
+            history.forEach(item => {
+                markup += this.buildHistoryItemMarkup(item);
+            });
+
+            this.elements.historyContainer.innerHTML = '';
+            this.elements.historyContainer.insertAdjacentHTML('beforeend', markup);
+        } else {
+            this.showHistoryError();
+        }
+    }
+
+    private showHistoryError = () => {
+        this.elements.historyError.classList.remove('is-hidden');
+    }
+
+    private hideHistoryError = () => {
+        this.elements.historyError.classList.add('is-hidden');
     }
 }

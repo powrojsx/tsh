@@ -2,12 +2,6 @@
 
 Hi there, stranger! I'm glad you can help us with our messy code.
 
-1. The username field is missing validation. Prepare a simple validation for the input field:
-    * not-empty
-    * allow only characters: `a-z`, `0-9`, `-`, `_`
-    
-    When the value is not valid, display a red border around the field.
-
 2. The History block is just a mockup. Make it dynamic. After user data has been loaded, use the below URL:
     `https://api.github.com/users/{username}/events/public` 
     to load user's latest events. Populate the history list with events gotten from the above step. 
