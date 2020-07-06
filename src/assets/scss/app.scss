@@ -1,5 +1,7 @@
-@import "~bulma";
-@import "~bulma-timeline";
+@charset "utf-8";
+
+$gap: 32px;
+$widescreen: 1216px + (2 * $gap);
 
 .navbar {
   border-bottom: 1px solid #eee;
@@ -17,3 +19,27 @@
 .timeline .timeline-item {
   padding-bottom:1em;
 }
+
+.history {
+  display: flex;
+}
+
+.history__avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+//@import "~bulma/sass/utilities/all";
+//@import "~bulma/sass/base/all";
+//@import "~bulma/sass/grid/columns";
+//@import "~bulma/sass/form/all";
+//@import "~bulma/sass/components/navbar";
+//@import "~bulma/sass/elements/container";
+//@import "~bulma/sass/helpers/typography";
+//@import "~bulma/sass/helpers/spacing";
+//@import "~bulma/sass/elements/title";
+//@import "~bulma/sass/elements/button";
+@import "~bulma/bulma";
+@import "~bulma-timeline";

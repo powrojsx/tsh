@@ -66,6 +66,6 @@ the better.
 **Each Step should be in separate commit.**   
 That way you will first create a PR and then have at least 8 more commits:
 * 1 containing whole code for Pull request
-* 2 for bug fixes
+* 2 for bug fixesq
 * 5 for new features 
 
