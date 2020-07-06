@@ -8,30 +8,34 @@ export class AppController {
     private validateUsername = (username: string) => {
         const validationPatter = new RegExp(/^[a-zA-Z 0-9\-_]*$/g);
 
-        console.log(username.length);
-        console.log(validationPatter.test(username));
-
         if(username.length < 1 || !validationPatter.test(username)) {
             this.appView.setInputError();
+            throw new Error('Validation error!')
         }
-
-        return username.length > 0 && validationPatter.test(username);
     }
 
     private findUser = async (e: Event) => {
         e.preventDefault();
-        const value = this.appView.getInputValue();
-        const isValid = this.validateUsername(value);
 
-        if(isValid) {
+        this.appView.backToInitialState();
+
+        const value = this.appView.getInputValue();
+
+        try {
+            this.validateUsername(value);
             this.appView.clearInputError();
             const data = await this.appModel.getUserData(value);
             this.appView.renderProfile(data);
+            const history = await this.appModel.getUserHistory(value);
+            this.appView.renderHistory(history);
             this.appView.clearInput();
+        } catch (error) {
+            console.log(error);
         }
     }
 
     public initializeApp = () => {
         this.appView.getHTMLElements().searchUserForm.addEventListener('submit', this.findUser);
+        console.log('App initialized...')
     }
 }

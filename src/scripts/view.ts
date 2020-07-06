@@ -1,4 +1,5 @@
 import {User} from "./interfaces";
+import {parseDate, parseGithubResponsePayload} from "./helpers";
 
 interface ElementsCollection {
     usernameInput: HTMLInputElement;
@@ -7,6 +8,7 @@ interface ElementsCollection {
     userName: HTMLElement;
     userLogin: HTMLElement;
     userBio: HTMLElement;
+    historyContainer: HTMLElement;
 }
 
 export class AppView {
@@ -16,7 +18,8 @@ export class AppView {
         userAvatar: document.getElementById('profile-image'),
         userName: document.getElementById('profile-name'),
         userLogin: document.getElementById('profile-url'),
-        userBio: document.getElementById('profile-bio')
+        userBio: document.getElementById('profile-bio'),
+        historyContainer: document.getElementById('user-timeline')
     }
 
     public getInputValue = (): string => {
@@ -43,5 +46,54 @@ export class AppView {
         this.elements.userBio.textContent = user.bio;
         this.elements.userLogin.setAttribute('href', `https://github.com/${user.login}`);
         this.elements.userLogin.textContent = user.login;
+    }
+
+    private clearProfile = (): void => {
+        this.elements.userAvatar.setAttribute('src', '');
+        this.elements.userName.textContent = '';
+        this.elements.userBio.textContent = '';
+        this.elements.userLogin.setAttribute('href', '');
+        this.elements.userLogin.textContent = '';
+    }
+
+    public backToInitialState = (): void => {
+        this.clearProfile();
+    }
+
+    private buildHistoryItemMarkup = (item: any) => {
+        return `
+            <li class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <p class="heading">${parseDate(item.created_at)}</p>
+                  <div class="content history">
+                    <div class="history__avatar">
+                        <span class="image is-24x24 is-inline-block">
+                            <img src="${item.actor.avatar_url}" class="is-rounded" alt="" />
+                        </span>
+                    </div>
+                    <div>
+                        <span class="gh-username">
+                            <a href="${item.actor.url}">${item.actor.login}</a>
+                        </span>
+                        ${parseGithubResponsePayload(item)}
+                    <p class="repo-name">
+                      <a href="${item.repo.url}">${item.repo.name}</a>
+                    </p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+        `;
+    };
+
+    public renderHistory = (history: any) => {
+        let markup = '';
+        history.forEach(item => {
+            markup += this.buildHistoryItemMarkup(item);
+        });
+
+        this.elements.historyContainer.innerHTML = '';
+        this.elements.historyContainer.insertAdjacentHTML('beforeend', markup);
     }
 }
