@@ -1,60 +1,47 @@
-const path = require('path'),
-  webpack = require('webpack'),
-  CleanWebpackPlugin = require('clean-webpack-plugin'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const extractPlugin = new ExtractTextPlugin({filename: './assets/css/app.css'});
+const path = require('path');
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
 
   context: path.resolve(__dirname, 'src'),
 
   entry: {
-    app: './index.js'
+    app: './index.ts'
   },
 
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: './assets/js/[name].bundle.js'
   },
-
   module: {
     rules: [
-
       {
-        test: /\.js$/,
-        include: /src/,
+        test: /\.ts?$/,
+        use: 'awesome-typescript-loader',
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ['env']
-          }
-        }
       },
       {
         test: /\.html$/,
         use: ['html-loader']
       },
       {
-        test: /\.s?css$/,
-        use: extractPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: true
-              }
-            }, {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
             }
-          ],
-          fallback: 'style-loader'
-        })
+          }
+        ],
       },
       {
         test: /\.(jpg|png|gif|svg)$/,
@@ -72,26 +59,28 @@ const config = {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: ['file-loader']
       }
-
     ]
   },
 
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({template: 'index.html'}),
-    extractPlugin
+    new MiniCssExtractPlugin(),
+    new BundleAnalyzerPlugin()
   ],
+
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
+  },
 
   devServer: {
     contentBase: path.resolve(__dirname, "./dist/assets/media"),
     compress: true,
     port: 2000,
     stats: 'errors-only',
-    open: true
+    open: false
   },
-
   devtool: 'inline-source-map'
-
 };
 
 module.exports = config;
