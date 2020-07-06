@@ -2,27 +2,6 @@
 
 Hi there, stranger! I'm glad you can help us with our messy code.
 
-
-## Step 1: Code Review
-
-Create empty repository and make Pull Request with the whole codebase you've got from us. Then make a code review 
-for it. Don't hesitate to point out each concern - we want to make the code eventually perfect! 
-We'll be grateful for all your thoughts on it.  
-
-
-## Step 2: Bug hunt
-
-1. For some reason the app doesn't fully load data. This happens on all major browsers: Chrome, Firefox, IE11.  
-When you resolve the issue, make sure it works on all mentioned browsers
-
-2. The user image in the history block is not aligned properly. Can you do something about it? 
-
-
-## Step 3: New features
-
-As you could probably see, the project lacks some more or less important features. Can you help us making it done?
- 
-
 1. The username field is missing validation. Prepare a simple validation for the input field:
     * not-empty
     * allow only characters: `a-z`, `0-9`, `-`, `_`
@@ -51,11 +30,6 @@ As you could probably see, the project lacks some more or less important feature
 3. Hide fake Profile and History fields until the data is being loaded.   
 We've prepare a spinner element (in HTML) to indicate loading data, but forgot to use it, Can you make it visible 
 when there are pending requests?
-
-4. Currently the Profile column has width of 1/3 screen. Let's change it's size:
-    * below 768px: make it 100% (as it is now)
-    * 768-1280px: make it 50%
-    * 1280px and above: make it 30%
 
 5. The production build is quite big: **556kB**. Can you optimize it to fit in less than 350kB? The less 
 the better.
