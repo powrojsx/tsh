@@ -33,7 +33,7 @@ export class AppController {
             this.appView.showMainContent();
             this.appView.clearInput();
         } catch (error) {
-            console.log(error);
+            this.appView.hideMainContent();
         }
     }
 

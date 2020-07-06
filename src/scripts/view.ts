@@ -3,6 +3,7 @@ import {parseDate, parseGithubResponsePayload} from "./helpers";
 
 interface ElementsCollection {
     usernameInput: HTMLInputElement;
+    loadBtn: HTMLButtonElement;
     searchUserForm: HTMLFormElement;
     userAvatar: HTMLElement;
     userName: HTMLElement;
@@ -18,6 +19,7 @@ interface ElementsCollection {
 export class AppView {
     private elements: ElementsCollection = {
         usernameInput: document.getElementById('github-username') as HTMLInputElement,
+        loadBtn: document.getElementById('load-username-btn') as HTMLButtonElement,
         searchUserForm: document.getElementById('search-user-form') as HTMLFormElement,
         userAvatar: document.getElementById('profile-image'),
         userName: document.getElementById('profile-name'),
@@ -35,14 +37,21 @@ export class AppView {
         this.elements.placeholderContent.classList.add('is-hidden');
     }
 
+    public hideMainContent = () => {
+        this.elements.mainContent.classList.add('is-hidden');
+        this.elements.placeholderContent.classList.remove('is-hidden');
+    }
+
     public showLoader = () => {
         this.elements.spinner.classList.remove('is-hidden');
         this.elements.mainContent.classList.add('is-hidden');
+        this.elements.loadBtn.classList.add('is-loading');
     };
 
     public hideLoader = () => {
         this.elements.spinner.classList.add('is-hidden');
         this.elements.mainContent.classList.remove('is-hidden');
+        this.elements.loadBtn.classList.remove('is-loading');
     };
 
     public getInputValue = (): string => {
