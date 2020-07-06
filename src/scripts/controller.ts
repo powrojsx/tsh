@@ -25,8 +25,9 @@ export class AppController {
 
         if(isValid) {
             this.appView.clearInputError();
-            const userdata = await this.appModel.getUserData(value);
-            console.log(userdata);
+            const data = await this.appModel.getUserData(value);
+            this.appView.renderProfile(data);
+            this.appView.clearInput();
         }
     }
 
